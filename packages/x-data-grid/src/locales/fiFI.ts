@@ -2,7 +2,7 @@ import type { GridLocaleText } from '../models/api/gridLocaleTextApi';
 import { getGridLocalization, buildLocaleFormat } from '../utils/getGridLocalization';
 import type { Localization } from '../utils/getGridLocalization';
 
-const formatNumber = buildLocaleFormat('es-ES');
+const formatNumber = buildLocaleFormat('fi-FI');
 
 const fiFIGrid: Partial<GridLocaleText> = {
   // Root
