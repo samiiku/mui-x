@@ -1,6 +1,8 @@
 import type { GridLocaleText } from '../models/api/gridLocaleTextApi';
-import { getGridLocalization } from '../utils/getGridLocalization';
+import { getGridLocalization, buildLocaleFormat } from '../utils/getGridLocalization';
 import type { Localization } from '../utils/getGridLocalization';
+
+const formatNumber = buildLocaleFormat('es-ES');
 
 const fiFIGrid: Partial<GridLocaleText> = {
   // Root
@@ -281,19 +283,17 @@ const fiFIGrid: Partial<GridLocaleText> = {
 
   // Pagination
   paginationRowsPerPage: 'Rivejä per sivu:',
-  // paginationDisplayedRows: ({
-  //   from,
-  //   to,
-  //   count,
-  //   estimated
-  // }) => {
-  //   const unknownRowCount = count == null || count === -1;
-  //   if (!estimated) {
-  //     return `${formatNumber(from)}–${formatNumber(to)} of ${!unknownRowCount ? formatNumber(count) : `more than ${formatNumber(to)}`}`;
-  //   }
-  //   const estimatedLabel = estimated && estimated > to ? `around ${formatNumber(estimated)}` : `more than ${formatNumber(to)}`;
-  //   return `${formatNumber(from)}–${formatNumber(to)} of ${!unknownRowCount ? formatNumber(count) : estimatedLabel}`;
-  // },
+  paginationDisplayedRows: ({ from, to, count, estimated }) => {
+    const unknownRowCount = count == null || count === -1;
+    if (!estimated) {
+      return `${formatNumber(from)}–${formatNumber(to)} / ${!unknownRowCount ? formatNumber(count) : `yli ${formatNumber(to)}`}`;
+    }
+    const estimatedLabel =
+      estimated && estimated > to
+        ? `noin ${formatNumber(estimated)}`
+        : `yli ${formatNumber(to)}`;
+    return `${formatNumber(from)}–${formatNumber(to)} / ${!unknownRowCount ? formatNumber(count) : estimatedLabel}`;
+  },
   paginationItemAriaLabel: (type) => {
     if (type === 'first') {
       return 'Mene ensimmäiselle sivulle';
